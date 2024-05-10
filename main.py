@@ -1,22 +1,45 @@
-from entities import Record
+"""Entry point of the application."""
+
 from entities import AddressBook
+from entities import InputParser
+from entities import CommandHandler
 
-# Створення нової адресної книги
-book = AddressBook()
+class Bootstrap:
+    """Bootstrap the application."""
 
-# Створення запису для John
-john_record = Record("John")
-john_record.add_phone("1234567890")
-john_record.add_phone("5555555555")
-john_record.add_birthday('12.05.1999')
+    def run(self):
+        """Runs the address book bot."""
+        book = AddressBook()
+        print("Welcome to the assistant bot!")
+        while True:
+            user_input = input("Enter a command: ")
+            input_parser = InputParser()
+            command_handler = CommandHandler()
+            command, *args = input_parser.parse_input(user_input)
 
-# Додавання запису John до адресної книги
-book.add_record(john_record)
+            if command in ["close", "exit"]:
+                print("Good bye!")
+                break
 
-# Створення та додавання нового запису для Jane
-jane_record = Record("Jane")
-jane_record.add_phone("9876543210")
-jane_record.add_birthday('10.05.1994')
-book.add_record(jane_record)
+            elif command == "hello":
+                print("How can I help you?")
+            elif command == "add":
+                print(command_handler.add_contact(args, book))
+            elif command == "change":
+                print(command_handler.change_contact(args, book))
+            elif command == "phone":
+                command_handler.show_phone(args, book)
+            elif command == "all":
+                command_handler.show_all(book)
+            elif command == "add-birthday":
+                print(command_handler.add_birthday(args, book))
+            elif command == "show-birthday":
+                command_handler.show_birthday(args, book)
+            elif command == "birthdays":
+                command_handler.birthdays(book)
+            else:
+                print("Invalid command.")
 
-print(book.get_upcoming_birthdays())
+if __name__ == "__main__":
+    bootstrap = Bootstrap()
+    bootstrap.run()

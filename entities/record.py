@@ -84,11 +84,15 @@ class Record:
         
         Raises:
             TypeError: if no argument passed.
+            ValueError: if current_number doesn't exist.
+            PhoneValidationError: if phone number less then 10 digits.
         """
         index = next((i for i, item in enumerate(self.phones) if item.value == current_number), -1)
 
         if index != -1:
             self.phones[index] = Phone(new_number)
+        else:
+            raise ValueError('No such phone in the record')
 
 
     def find_phone(self, phone_number: str) -> None:

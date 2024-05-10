@@ -60,11 +60,11 @@ class AddressBook(UserDict):
         """
         del self.data[name]
 
-    def get_upcoming_birthdays(self) -> None:
+    def get_upcoming_birthdays(self) -> list:
         """Returns list of users that have birthday withing 7 days including current date
         
         Returns:
-            None.
+            List of birthdays.
         """
         today = datetime.today().date()
         current_year =datetime.now().year
